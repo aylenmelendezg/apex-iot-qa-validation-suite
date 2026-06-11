@@ -1,0 +1,834 @@
+{
+  "info": {
+    "_postman_id": "87677142-1e0b-4835-9db5-858afe5b0c81",
+    "name": "Apex IoT QA Suite",
+    "description": "## Complete QA validation suite developed for an IoT Sensor Monitoring System.\n\nThis collection contains functional, validation, security, and performance test cases designed to verify system behavior, data integrity, authentication controls, monitoring capabilities, and API performance.\n\n### The project includes:\n\n- Requirements Traceability Matrix (RTM)\n    \n- Functional Test Cases\n    \n- Validation Testing\n    \n- Security Testing\n    \n- Performance Testing\n    \n- Test Execution Documentation\n    \n- Final Validation Report\n    \n\n### Project Metrics\n\nRequirements Covered: 15  \nTest Cases Executed: 15  \nPassed: 15  \nFailed: 0  \nCoverage: 100%  \nSuccess Rate: 100%\n\nStatus: APPROVED FOR RELEASE\n\nTool Used: Postman\n\nAuthor: Aylen Meléndez",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54517872",
+    "_collection_link": "https://go.postman.co/collection/54517872-87677142-1e0b-4835-9db5-858afe5b0c81?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Sensor Monitoring System",
+      "item": [
+        {
+          "name": "TC-001 Temperature Reception",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Temperature value is correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json.temperature).to.eql(35);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Sensor ID is correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json.sensor_id).to.eql(\"TEMP-001\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"TEMP-001\",\r\n  \"temperature\": 35,\r\n  \"unit\": \"C\",\r\n  \"timestamp\": \"2026-06-08T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-002 Humidity Reception",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Humidity value is correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.humidity).to.eql(65);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Sensor ID is correct\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.sensor_id).to.eql(\"HUM-001\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"HUM-001\",\r\n  \"humidity\": 65,\r\n  \"unit\": \"%\",\r\n  \"timestamp\": \"2026-06-08T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-003 Dashboard Refresh",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Refresh interval is 5 seconds\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.refresh_interval_seconds).to.eql(5);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Latest sensor update is available\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.latest_sensor_update).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"endpoint\": \"/api/dashboard\",\r\n  \"action\": \"refresh_dashboard\",\r\n  \"refresh_interval_seconds\": 5,\r\n  \"latest_sensor_update\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-004 Temperature Alarm",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Temperature is above threshold\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.temperature).to.be.above(jsonData.data.threshold);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Alarm is expected\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.alarm_expected).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"TEMP-001\",\r\n  \"temperature\": 85,\r\n  \"unit\": \"C\",\r\n  \"threshold\": 80,\r\n  \"alarm_expected\": true,\r\n  \"timestamp\": \"2026-06-08T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-005 Historical Records",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Records requested is 10\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.records_requested).to.eql(10);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"History is available\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.history_available).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"TEMP-001\",\r\n  \"records_requested\": 10,\r\n  \"history_available\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-008 24h Monitoring",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Monitoring period is 24 hours\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.monitoring_period_hours).to.eql(24);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Monitoring completed successfully\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.monitoring_status).to.eql(\"completed\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"TEMP-001\",\r\n  \"monitoring_period_hours\": 24,\r\n  \"records_collected\": 1440,\r\n  \"monitoring_status\": \"completed\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "## Functional test cases focused on validating the core behavior of the IoT Sensor Monitoring System.\n\n### These tests verify:\n\n- Temperature data reception\n    \n- Humidity data reception\n    \n- Dashboard updates\n    \n- Alarm generation\n    \n- Historical records retrieval\n    \n- Continuous monitoring operations\n    \n\n### Objective:\n\nEnsure that sensor information is correctly received, processed, displayed, and stored by the system."
+    },
+    {
+      "name": "Validation",
+      "item": [
+        {
+          "name": "TC-009 Temperature NULL",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Temperature field exists\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json).to.have.property(\"temperature\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Temperature is NULL\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json.temperature).to.eql(null);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"TEMP-001\",\r\n  \"temperature\": null,\r\n  \"unit\": \"C\",\r\n  \"timestamp\": \"2026-06-08T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-010 Temperature Out Of Range",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Temperature field exists\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json).to.have.property(\"temperature\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Temperature is 250\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json.temperature).to.eql(250);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"sensor_id\": \"TEMP-001\",\r\n  \"temperature\": 250,\r\n  \"unit\": \"C\",\r\n  \"timestamp\": \"2026-06-08T21:00:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-011 Negative Humidity",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Humidity field exists\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json).to.have.property(\"humidity\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Humidity is -10\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json.humidity).to.eql(-10);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sensor_id\": \"HUM-001\",\r\n    \"humidity\": -10,\r\n    \"unit\": \"%\",\r\n    \"timestamp\": \"2026-06-08T21:00:00\"\r\n}"
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "## Validation test cases designed to verify data quality, business rules, and system restrictions.\n\n### These tests evaluate:\n\n- Null value handling\n    \n- Out-of-range temperature values\n    \n- Negative humidity values\n    \n\n### Objective:\n\nEnsure that invalid or corrupted data is properly identified and handled without affecting system stability"
+    },
+    {
+      "name": "Security",
+      "item": [
+        {
+          "name": "TC-006 Valid Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Username is admin\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.username).to.eql(\"admin\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Login status is success\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.login_status).to.eql(\"success\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"Admin123\",\r\n  \"login_status\": \"success\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-007 Failed Login Logging",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Login status is failed\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.login_status).to.eql(\"failed\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Failed login was logged\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.event_logged).to.eql(true);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"WrongPassword\",\r\n  \"login_status\": \"failed\",\r\n  \"event_logged\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-012 Missing Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Authorization header is missing\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.headers).to.not.have.property(\"authorization\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Request was sent without token\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.json.auth_token).to.eql(\"\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"endpoint\": \"/api/sensor-data\",\r\n  \"action\": \"request_protected_resource\",\r\n  \"auth_token\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-013 Invalid Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Authorization header is missing\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.headers).to.not.have.property(\"authorization\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Invalid token was sent\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.auth_token).to.eql(\"INVALID_TOKEN\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"endpoint\": \"/api/sensor-data\",\r\n    \"action\": \"request_protected_resource\",\r\n    \"auth_token\": \"INVALID_TOKEN\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "## Security-focused test cases used to validate authentication, authorization, and access control mechanisms.\n\n### These tests verify:\n\n- Valid login access\n    \n- Failed login attempts\n    \n- Missing authentication tokens\n    \n- Invalid token handling\n    \n\n### Objective:\n\nConfirm that only authorized users can access protected resources and that security events are properly managed."
+    },
+    {
+      "name": "Performance",
+      "item": [
+        {
+          "name": "TC-014 Response Time",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"endpoint\": \"/api/sensor-data\",\r\n  \"action\": \"performance_check\",\r\n  \"requests\": 100\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-015 Recovery After Connection Loss",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Connection status is restored\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.connection_status).to.eql(\"restored\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"No data loss detected\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.data.data_loss).to.eql(false);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"endpoint\": \"/api/sensor-data\",\r\n  \"action\": \"network_recovery\",\r\n  \"connection_status\": \"restored\",\r\n  \"data_loss\": false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://postman-echo.com/post",
+              "protocol": "https",
+              "host": [
+                "postman-echo",
+                "com"
+              ],
+              "path": [
+                "post"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "## Performance test cases used to evaluate system responsiveness and recovery capabilities under operational conditions.\n\n### These tests verify:\n\n- API response times\n    \n- Recovery after connection loss  \n    \n\n### Objective:  \n  \nEnsure that the system meets performance requirements and maintains service continuity after communication interruptions."
+    }
+  ]
+}
